@@ -1,0 +1,5 @@
+CREATE TABLE cart (
+    cartId  INT AUTO_INCREMENT PRIMARY KEY,
+    userId  INT NOT NULL UNIQUE,
+    FOREIGN KEY (userId) REFERENCES users(userId)
+) ENGINE=InnoDB;
