@@ -16,6 +16,7 @@ flowchart TD
     cartItem[cartItem]
     orders[orders]
     orderItem[orderItem]
+    %not to be used
 
     %% ==========================================
     %% RELATIONSHIPS (Diamonds)
