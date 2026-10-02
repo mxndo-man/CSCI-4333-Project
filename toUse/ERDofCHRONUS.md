@@ -56,74 +56,47 @@ flowchart TD
     listing --- R_SoldAs --- orderItem
 
     %% ==========================================
-    %% ATTRIBUTES (Ovals)
+    %% KEY ATTRIBUTES (Ovals)
     %% ==========================================
     
-    %% Brand Attributes
+    %% Brand
     brandId([_brandId_]) --- brand
     brandName([brandName]) --- brand
-    brandCountry([country]) --- brand
-    foundedYear([foundedYear]) --- brand
 
-    %% Movement Attributes
+    %% Movement
     movementId([_movementId_]) --- movement
     moveType([moveType]) --- movement
-    moveSubType([moveSubType]) --- movement
 
-    %% Complication Attributes
+    %% Complication
     complicationId([_complicationId_]) --- complication
     complicationName([complicationName]) --- complication
 
-    %% User Attributes
+    %% Users
     userId([_userId_]) --- users
-    displayName([displayName]) --- users
-    userPassword([userPassword]) --- users
     email([email]) --- users
-    bankId([bankId]) --- users
-    street([street]) --- users
-    city([city]) --- users
-    province([province]) --- users
-    zip([zip]) --- users
-    userCountry([country]) --- users
 
-    %% WatchType Attributes
+    %% WatchType
     watchId([_watchId_]) --- watchType
     model([model]) --- watchType
-    classification([classification]) --- watchType
-    bandWidth([bandWidth]) --- watchType
-    caseSize([caseSize]) --- watchType
-    caseMaterial([caseMaterial]) --- watchType
-    bandMaterial([bandMaterial]) --- watchType
-    dialColour([dialColour]) --- watchType
 
-    %% WatchInventory Attributes
+    %% WatchInventory
     inventoryId([_inventoryId_]) --- watchInventory
-    yearOfProd([yearOfProd]) --- watchInventory
-    watchCondition([watchCondition]) --- watchInventory
     serialNum([serialNum]) --- watchInventory
 
-    %% Listing Attributes
+    %% Listing
     listingId([_listingId_]) --- listing
     askingPrice([askingPrice]) --- listing
     status([status]) --- listing
-    listedAt([listedAt]) --- listing
 
-    %% Wishlist Attributes
+    %% Wishlist
     addedAt([addedAt]) --- wishlistItem
 
-    %% Cart Attributes
+    %% Cart
     cartId([_cartId_]) --- cart
 
-    %% Orders Attributes
+    %% Orders
     orderId([_orderId_]) --- orders
     confirmNum([confirmNum]) --- orders
-    confirmEmail([confirmEmail]) --- orders
-    shipStreet([shipStreet]) --- orders
-    shipCity([shipCity]) --- orders
-    shipProvince([shipProvince]) --- orders
-    shipZip([shipZip]) --- orders
-    shipCountry([shipCountry]) --- orders
-    createdAt([createdAt]) --- orders
 
-    %% OrderItem Attributes
+    %% OrderItem
     salePrice([salePrice]) --- orderItem
