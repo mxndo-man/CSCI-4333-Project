@@ -1,117 +1,129 @@
 ```mermaid
-erDiagram
-    brand ||--o{ watchType : "produces"
-    brand {
-        INT brandId PK "AUTO_INCREMENT"
-        VARCHAR brandName "UNIQUE"
-        VARCHAR country 
-        SMALLINT foundedYear 
-    }
+flowchart TD
+    %% ==========================================
+    %% ENTITIES (Rectangles)
+    %% ==========================================
+    brand[brand]
+    movement[movement]
+    complication[complication]
+    users[users]
+    watchType[watchType]
+    watchTypeComplication[watchTypeComplication]
+    watchInventory[watchInventory]
+    listing[listing]
+    wishlistItem[wishlistItem]
+    cart[cart]
+    cartItem[cartItem]
+    orders[orders]
+    orderItem[orderItem]
 
-    movement ||--o{ watchType : "powers"
-    movement {
-        INT movementId PK "AUTO_INCREMENT"
-        VARCHAR moveType 
-        VARCHAR moveSubType 
-    }
+    %% ==========================================
+    %% RELATIONSHIPS (Diamonds)
+    %% ==========================================
+    R_Produces{produces}
+    R_Powers{powers}
+    R_HasComp{has}
+    R_FeatIn{features in}
+    R_Owns{owns}
+    R_IsModelFor{is model for}
+    R_ListedAs{listed as}
+    R_AddsTo{adds to}
+    R_SavedIn{saved in}
+    R_HasCart{has cart}
+    R_CartContains{contains}
+    R_AddedAs{added as}
+    R_Places{places}
+    R_OrderIncludes{includes}
+    R_SoldAs{sold as}
 
-    complication ||--o{ watchTypeComplication : "features in"
-    complication {
-        INT complicationId PK "AUTO_INCREMENT"
-        VARCHAR complicationName "UNIQUE"
-    }
+    %% ==========================================
+    %% CONNECTIONS (Entities to Relationships)
+    %% ==========================================
+    brand --- R_Produces --- watchType
+    movement --- R_Powers --- watchType
+    watchType --- R_HasComp --- watchTypeComplication
+    complication --- R_FeatIn --- watchTypeComplication
+    users --- R_Owns --- watchInventory
+    watchType --- R_IsModelFor --- watchInventory
+    watchInventory --- R_ListedAs --- listing
+    users --- R_AddsTo --- wishlistItem
+    listing --- R_SavedIn --- wishlistItem
+    users --- R_HasCart --- cart
+    cart --- R_CartContains --- cartItem
+    listing --- R_AddedAs --- cartItem
+    users --- R_Places --- orders
+    orders --- R_OrderIncludes --- orderItem
+    listing --- R_SoldAs --- orderItem
 
-    users ||--o{ watchInventory : "owns"
-    users ||--o{ wishlistItem : "adds to"
-    users ||--|| cart : "has"
-    users ||--o{ orders : "places"
-    users {
-        INT userId PK "AUTO_INCREMENT"
-        VARCHAR displayName 
-        VARCHAR userPassword 
-        VARCHAR email "UNIQUE"
-        BIGINT bankId 
-        VARCHAR street 
-        VARCHAR city 
-        VARCHAR province 
-        VARCHAR zip 
-        VARCHAR country 
-    }
+    %% ==========================================
+    %% ATTRIBUTES (Ovals)
+    %% ==========================================
+    
+    %% Brand Attributes
+    brandId([_brandId_]) --- brand
+    brandName([brandName]) --- brand
+    brandCountry([country]) --- brand
+    foundedYear([foundedYear]) --- brand
 
-    watchType ||--o{ watchTypeComplication : "has"
-    watchType ||--o{ watchInventory : "is model for"
-    watchType {
-        INT watchId PK "AUTO_INCREMENT"
-        INT brandId FK 
-        VARCHAR model 
-        INT movementId FK 
-        VARCHAR classification 
-        INT bandWidth 
-        DECIMAL caseSize 
-        VARCHAR caseMaterial 
-        VARCHAR bandMaterial 
-        VARCHAR dialColour 
-    }
+    %% Movement Attributes
+    movementId([_movementId_]) --- movement
+    moveType([moveType]) --- movement
+    moveSubType([moveSubType]) --- movement
 
-    watchTypeComplication {
-        INT watchId PK,FK 
-        INT complicationId PK,FK 
-    }
+    %% Complication Attributes
+    complicationId([_complicationId_]) --- complication
+    complicationName([complicationName]) --- complication
 
-    watchInventory ||--o{ listing : "listed as"
-    watchInventory {
-        INT inventoryId PK "AUTO_INCREMENT"
-        INT userId FK 
-        INT watchId FK 
-        SMALLINT yearOfProd 
-        VARCHAR watchCondition 
-        VARCHAR serialNum "UNIQUE"
-    }
+    %% User Attributes
+    userId([_userId_]) --- users
+    displayName([displayName]) --- users
+    userPassword([userPassword]) --- users
+    email([email]) --- users
+    bankId([bankId]) --- users
+    street([street]) --- users
+    city([city]) --- users
+    province([province]) --- users
+    zip([zip]) --- users
+    userCountry([country]) --- users
 
-    listing ||--o{ wishlistItem : "saved in"
-    listing ||--o{ cartItem : "added as"
-    listing ||--|| orderItem : "sold as"
-    listing {
-        INT listingId PK "AUTO_INCREMENT"
-        INT inventoryId FK 
-        DECIMAL askingPrice 
-        ENUM status 
-        TIMESTAMP listedAt 
-    }
+    %% WatchType Attributes
+    watchId([_watchId_]) --- watchType
+    model([model]) --- watchType
+    classification([classification]) --- watchType
+    bandWidth([bandWidth]) --- watchType
+    caseSize([caseSize]) --- watchType
+    caseMaterial([caseMaterial]) --- watchType
+    bandMaterial([bandMaterial]) --- watchType
+    dialColour([dialColour]) --- watchType
 
-    wishlistItem {
-        INT userId PK,FK 
-        INT listingId PK,FK 
-        TIMESTAMP addedAt 
-    }
+    %% WatchInventory Attributes
+    inventoryId([_inventoryId_]) --- watchInventory
+    yearOfProd([yearOfProd]) --- watchInventory
+    watchCondition([watchCondition]) --- watchInventory
+    serialNum([serialNum]) --- watchInventory
 
-    cart ||--o{ cartItem : "contains"
-    cart {
-        INT cartId PK "AUTO_INCREMENT"
-        INT userId FK "UNIQUE"
-    }
+    %% Listing Attributes
+    listingId([_listingId_]) --- listing
+    askingPrice([askingPrice]) --- listing
+    status([status]) --- listing
+    listedAt([listedAt]) --- listing
 
-    cartItem {
-        INT cartId PK,FK 
-        INT listingId PK,FK 
-    }
+    %% Wishlist Attributes
+    addedAt([addedAt]) --- wishlistItem
 
-    orders ||--o{ orderItem : "includes"
-    orders {
-        INT orderId PK "AUTO_INCREMENT"
-        INT userId FK 
-        BIGINT confirmNum "UNIQUE"
-        VARCHAR confirmEmail 
-        VARCHAR shipStreet 
-        VARCHAR shipCity 
-        VARCHAR shipProvince 
-        VARCHAR shipZip 
-        VARCHAR shipCountry 
-        TIMESTAMP createdAt 
-    }
+    %% Cart Attributes
+    cartId([_cartId_]) --- cart
 
-    orderItem {
-        INT orderId PK,FK 
-        INT listingId PK,FK "UNIQUE"
-        DECIMAL salePrice 
-    }
+    %% Orders Attributes
+    orderId([_orderId_]) --- orders
+    confirmNum([confirmNum]) --- orders
+    confirmEmail([confirmEmail]) --- orders
+    shipStreet([shipStreet]) --- orders
+    shipCity([shipCity]) --- orders
+    shipProvince([shipProvince]) --- orders
+    shipZip([shipZip]) --- orders
+    shipCountry([shipCountry]) --- orders
+    createdAt([createdAt]) --- orders
+
+    %% OrderItem Attributes
+    salePrice([salePrice]) --- orderItem
