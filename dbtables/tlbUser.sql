@@ -1,9 +1,10 @@
 CREATE TABLE tblUser(
-    user_id AUTOINCREMENT PRIMARY KEY,
+    userId AUTOINCREMENT PRIMARY KEY,
     UserPassword VARCHAR(50) 
-    bank_id LONG,
-    wishlist_id LONG,
-    cart_id LONG,
+    bankId LONG,
     Email VARCHAR(50), 
-    catalog_id LONG, -- we shoudl change long to int maybe 
+    -- removed cart id and wishlist id, since they both link back to userId 
+
+
+    catalogId LONG, -- we shoudl change long to int maybe 
 );
